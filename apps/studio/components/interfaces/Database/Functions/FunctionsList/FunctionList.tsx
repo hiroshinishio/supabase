@@ -2,6 +2,11 @@ import * as Tooltip from '@radix-ui/react-tooltip'
 import { PermissionAction } from '@supabase/shared-types/out/constants'
 import { includes, noop, sortBy } from 'lodash'
 import { useRouter } from 'next/router'
+
+import { useProjectContext } from 'components/layouts/ProjectLayout/ProjectContext'
+import Table from 'components/to-be-cleaned/Table'
+import { useDatabaseFunctionsQuery } from 'data/database-functions/database-functions-query'
+import { useCheckPermissions } from 'hooks/misc/useCheckPermissions'
 import {
   Button,
   DropdownMenu,
@@ -13,11 +18,6 @@ import {
   IconMoreVertical,
   IconTrash,
 } from 'ui'
-
-import { useProjectContext } from 'components/layouts/ProjectLayout/ProjectContext'
-import Table from 'components/to-be-cleaned/Table'
-import { useDatabaseFunctionsQuery } from 'data/database-functions/database-functions-query'
-import { useCheckPermissions } from 'hooks'
 
 interface FunctionListProps {
   schema: string
@@ -92,7 +92,9 @@ const FunctionList = ({
               <p title={x.name}>{x.name}</p>
             </Table.td>
             <Table.td className="hidden md:table-cell md:overflow-auto">
-              <p title={x.argument_types}>{x.argument_types || '-'}</p>
+              <p title={x.argument_types} className="truncate">
+                {x.argument_types || '-'}
+              </p>
             </Table.td>
             <Table.td className="hidden lg:table-cell">
               <p title={x.return_type}>{x.return_type}</p>
